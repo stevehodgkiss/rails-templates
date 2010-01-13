@@ -1,0 +1,7 @@
+h1. Rails Templates
+
+template.rb gets gets you running with bundler, haml, and compass (sass). Also includes cucumber, webrat, factory_girl, formtastic, and will_paginate gems.
+
+<code>rails -m http://github.com/stevehodgkiss/rails-templates/raw/master/template.rb app_name</code>
+
+To add gem dependencies edit the gem file then run <code>script/bundle</code>.
