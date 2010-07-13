@@ -106,7 +106,8 @@ create_file "app/views/shared/_flashes.html.haml", <<-FLASHES
 - if flash.any?
   %div#flash
     - flash.each do |key, value|
-      %p= value
+      %p{:class => key}
+        = value
 FLASHES
 
 # git
