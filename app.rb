@@ -69,11 +69,13 @@ GEMFILE
 
 application <<-GENERATORS
 
-config.generators do |g|
-  g.template_engine :haml
-  g.test_framework :rspec, :fixture => true, :views => false
-  g.fixture_replacement :machinist
-end
+    config.generators do |g|
+      g.template_engine :haml
+      g.test_framework :rspec, :fixture => true, :views => false
+      g.fixture_replacement :machinist
+    end
+
+    config.autoload_paths  += ["\#{config.root}/lib"]
 GENERATORS
 
 # haml generator
