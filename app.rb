@@ -30,12 +30,12 @@ JS
 remove_file "Gemfile"
 create_file "Gemfile", <<-GEMFILE
 source 'http://rubygems.org'
-gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem "rails", "3.0.0"
+gem "sqlite3-ruby", :require => "sqlite3"
 
-gem "pg",         "0.9.0"
 gem "compass"
-gem "haml",       ">= 3.0.13"
-gem "devise",     :git => "git://github.com/plataformatec/devise.git"
+gem "haml",       "~> 3.0.13"
+gem "devise",     "~> 1.1.2"
 gem "bcrypt-ruby"
 gem "simple_form"
 gem "responders"
@@ -46,12 +46,6 @@ group :development do
   gem "taps"
   gem "hirb"
   gem "wirble"
-  gem "awesome_print"
-  gem "ruby-debug"
-
-  gem "autotest"
-  gem "autotest-fsevent" if RUBY_PLATFORM =~ /darwin/
-  gem "ZenTest"
 end
 
 group :test, :cucumber do
@@ -61,9 +55,17 @@ group :test, :cucumber do
   gem "cucumber-rails",   ">= 0.3.2"
   gem "database_cleaner", ">= 0.5.2"
   gem "launchy",          ">= 0.3.5"
-  gem "rspec-rails",      ">= 2.0.0.beta.17"
+  gem "rspec-rails",      ">= 2.0.0.beta.19"
   gem "spork",            ">= 0.8.4"
   gem "database_resetter"
+  gem "autotest"
+  gem "autotest-fsevent" if RUBY_PLATFORM =~ /darwin/
+  gem "ZenTest"
+end
+
+group :development, :test, :cucumber do
+  gem "awesome_print", :require => "ap"
+  gem "ruby-debug" if RUBY_VERSION.to_f < 1.9
 end
 GEMFILE
 
@@ -71,7 +73,7 @@ application <<-GENERATORS
 
     config.generators do |g|
       g.template_engine :haml
-      g.test_framework :rspec, :fixture => true, :views => false
+      g.test_framework :rspec, :fixture => false, :views => false
       g.fixture_replacement :machinist
     end
 
@@ -93,8 +95,6 @@ create_file "app/views/layouts/application.html.haml", <<-LAYOUT
     %title #{app_name.humanize}
     = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
     = stylesheet_link_tag 'print.css', :media => 'print'
-    /[if IE]
-      = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
     = csrf_meta_tag
   %body
     = render "shared/flashes"
@@ -122,7 +122,7 @@ log <<-DOCS
 Run the following commands to complete the setup of #{app_name.humanize}:
 
 cd #{app_name}
-gem install bundler --pre
+gem install bundler
 bundle
 rails g rspec:install
 rails g cucumber:install --rspec --capybara
